@@ -181,9 +181,11 @@
   <ItemGroup>
     <ClCompile Include="CApplication.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CRocksManager.cpp" />
     <ClCompile Include="sfml_2dScroll.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CRocksManager.h" />
     <ClInclude Include="include\CPlayer.h" />
     <ClInclude Include="include\CApplication.h" />
   </ItemGroup>

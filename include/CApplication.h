@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "CPlayer.h"
+#include "CRocksManager.h"
 
 struct CApplication {
 	CApplication(const sf::VideoMode& WindowResolution, const std::string& WindowTitle) 
@@ -22,6 +23,7 @@ struct CApplication {
 
 		Game_createEnvironment();
 		Game_createPlayer();
+		Game_createRocksManager();
 	}
 
 	~CApplication() {
@@ -53,7 +55,9 @@ struct CApplication {
 	void Game_movePlayer(float&, signed short int = 0);
 
 	void Game_createEnvironment();
-	void Game_drawEnvironment();
+	void Game_drawEnvironment(float&);
+
+	void Game_createRocksManager();
 
 	// Member variables
 
@@ -68,6 +72,7 @@ struct CApplication {
 	std::unordered_map<std::string, sf::Texture> m_Textures;
 
 	CPlayer* m_Player;
+	CRocksManager* m_Rocks;
 	sf::Sprite m_EnvironmentBackground;
 
 	bool b_ExitFlag = false;

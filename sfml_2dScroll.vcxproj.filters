@@ -24,12 +24,18 @@
     <ClCompile Include="CPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CRocksManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\CPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CRocksManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

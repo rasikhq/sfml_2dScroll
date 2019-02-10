@@ -6,12 +6,15 @@ bool CApplication::LoadTextures() {
 	m_Textures["Player"] = sf::Texture();
 	m_Textures["Missile"] = sf::Texture();
 	m_Textures["Env_BG"] = sf::Texture();
+	m_Textures["Rock"] = sf::Texture();
 
 	if(!m_Textures["Player"].loadFromFile("data/textures/player.png"))
 		return false;
 	if(!m_Textures["Missile"].loadFromFile("data/textures/missile.png"))
 		return false;
 	if(!m_Textures["Env_BG"].loadFromFile("data/textures/env_bg.png"))
+		return false;
+	if(!m_Textures["Rock"].loadFromFile("data/textures/meteor.png"))
 		return false;
 
 	return true;
@@ -50,8 +53,10 @@ bool CApplication::Run() {
 	m_Player->update(dt);
 	// Drawing
 	// Draw - Environment
-	Game_drawEnvironment();
+	Game_drawEnvironment(dt);
 	m_Player->draw();
+	m_Rocks->update(dt);
+	m_Rocks->draw();
 
 	// Display the window
 	m_Window->display();
@@ -88,11 +93,26 @@ void CApplication::Game_movePlayer(float& dt, signed short int direction) {
 void CApplication::Game_createEnvironment() {
 	// Texture settings
 	m_Textures["Env_BG"].setSmooth(true);
+	m_Textures["Env_BG"].setRepeated(true);
 
 	m_EnvironmentBackground.setTexture(m_Textures["Env_BG"]);
+	m_EnvironmentBackground.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(m_Textures["Env_BG"].getSize().x * 2, m_Textures["Env_BG"].getSize().y)));
 	m_EnvironmentBackground.setPosition(0, 0);
 }
 
-void CApplication::Game_drawEnvironment() {
+void CApplication::Game_drawEnvironment(float& dt) {
+	// Moving effect
+	if(m_EnvironmentBackground.getPosition().x <= 0.0f - m_EnvironmentBackground.getGlobalBounds().width / 2) {
+		m_EnvironmentBackground.setPosition(0.0f, 0.0f);
+	} else {
+		m_EnvironmentBackground.move(-dt * 20.8f, 0.0f);
+	}
+	
 	m_Window->draw(m_EnvironmentBackground);
+}
+
+// Game - Rocks Manager
+void CApplication::Game_createRocksManager() {
+	m_Textures["Rock"].setSmooth(true);
+	m_Rocks = new CRocksManager(m_Textures["Rock"]);
 }

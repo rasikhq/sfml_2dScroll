@@ -5,6 +5,8 @@ extern CApplication Game;
 
 CPlayer::CPlayer(sf::Texture& playerTexture, sf::Texture& missileTexture)
 {
+	m_Shots.reserve(MAX_ALLOWED_SHOTS);
+
 	m_Player.setTexture(playerTexture);
 	m_Missile.setTexture(missileTexture);
 }
@@ -26,7 +28,7 @@ void CPlayer::update(float& dt) {
 }
 
 void CPlayer::shoot() {
-	if(m_Shots.size() >= 3 || m_LastShoot.getElapsedTime().asSeconds() < 1)
+	if(m_Shots.size() >= MAX_ALLOWED_SHOTS || m_LastShoot.getElapsedTime().asSeconds() < 1)
 		return;
 
 	sf::Sprite missile = sf::Sprite(m_Missile);
