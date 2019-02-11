@@ -85,6 +85,14 @@ void CApplication::Game_createPlayer() {
 	(*m_Player)().setPosition(sf::Vector2f((*m_Player)().getGlobalBounds().width + 20.f, m_WindowResolution.height / 2.0f));
 }
 
+void CApplication::Game_destroyPlayer(bool respawn) {
+	delete m_Player;
+	if(respawn)
+		Game_createPlayer();
+	else
+		return; // TO DO: Go to game over / menu
+}
+
 void CApplication::Game_movePlayer(float& dt, signed short int direction) {
 	m_Player->move(dt, direction);
 }

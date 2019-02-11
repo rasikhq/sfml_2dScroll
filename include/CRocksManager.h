@@ -11,6 +11,7 @@ public:
 	void update(float&);
 	void move(float&, sf::Sprite&);
 	void draw();
+	bool collide(sf::Sprite&, bool = true);
 public:
 	static const short unsigned int MAX_ALLOWED_ROCKS = 5;
 private:

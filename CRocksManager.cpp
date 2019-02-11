@@ -59,3 +59,19 @@ void CRocksManager::draw() {
 		Game.m_Window->draw(*it);
 	}
 }
+
+bool CRocksManager::collide(sf::Sprite& element, bool destroy) {
+	std::vector<sf::Sprite>::iterator it;
+	for(it = m_Rocks.begin(); it != m_Rocks.end();) {
+		if(it->getGlobalBounds().intersects(element.getGlobalBounds())) {
+			if(destroy) {
+				it = m_Rocks.erase(it);
+			} else {
+				it++;
+			}
+			return true;
+		} else
+			it++;
+	}
+	return false;
+}

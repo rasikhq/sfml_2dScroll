@@ -52,6 +52,7 @@ struct CApplication {
 
 	// Game functions
 	void Game_createPlayer();
+	void Game_destroyPlayer(bool = false);
 	void Game_movePlayer(float&, signed short int = 0);
 
 	void Game_createEnvironment();

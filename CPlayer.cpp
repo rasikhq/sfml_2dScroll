@@ -16,9 +16,15 @@ CPlayer::~CPlayer()
 }
 
 void CPlayer::update(float& dt) {
+	if(Game.m_Rocks->collide(m_Player)) {
+		return Game.Game_destroyPlayer(true);
+	}
+
 	std::vector<sf::Sprite>::iterator it;
 	for(it = m_Shots.begin(); it != m_Shots.end();) {
 		if(it->getPosition().x > Game.m_WindowResolution.width) {
+			it = m_Shots.erase(it);
+		} else if(Game.m_Rocks->collide(*it)) {
 			it = m_Shots.erase(it);
 		} else {
 			moveShot(dt, (*it));
