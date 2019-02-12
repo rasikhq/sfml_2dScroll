@@ -182,9 +182,13 @@
     <ClCompile Include="CApplication.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRocksManager.cpp" />
+    <ClCompile Include="CScoreManager.cpp" />
+    <ClCompile Include="CSoundManager.cpp" />
     <ClCompile Include="sfml_2dScroll.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CSoundManager.h" />
+    <ClInclude Include="include\CScoreManager.h" />
     <ClInclude Include="include\CRocksManager.h" />
     <ClInclude Include="include\CPlayer.h" />
     <ClInclude Include="include\CApplication.h" />

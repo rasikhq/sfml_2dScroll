@@ -16,8 +16,12 @@ public:
 	void moveShot(float&, sf::Sprite&);
 	void shoot();
 	void draw();
+
+	void onPlayerShootRock();
+	void onPlayerDie();
 public:
 	static const short unsigned int MAX_ALLOWED_SHOTS = 3;
+	const double MIN_SHOT_WAIT = 0.5f;
 private:
 	sf::Sprite m_Player;
 	sf::Sprite m_Missile;

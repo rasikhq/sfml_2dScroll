@@ -50,10 +50,13 @@ bool CApplication::Run() {
 	else
 		Game_movePlayer(dt);
 
+	m_SoundManager->update();
 	m_Player->update(dt);
+
 	// Drawing
-	// Draw - Environment
+	// Draw - Environment {Environment, Score, Player, Rocks}
 	Game_drawEnvironment(dt);
+	m_ScoreManager->draw();
 	m_Player->draw();
 	m_Rocks->update(dt);
 	m_Rocks->draw();
@@ -87,9 +90,10 @@ void CApplication::Game_createPlayer() {
 
 void CApplication::Game_destroyPlayer(bool respawn) {
 	delete m_Player;
-	if(respawn)
+	if(respawn) {
+		m_Rocks->clear();
 		Game_createPlayer();
-	else
+	}  else
 		return; // TO DO: Go to game over / menu
 }
 

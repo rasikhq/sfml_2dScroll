@@ -17,6 +17,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::update(float& dt) {
 	if(Game.m_Rocks->collide(m_Player)) {
+		onPlayerDie();
 		return Game.Game_destroyPlayer(true);
 	}
 
@@ -26,6 +27,7 @@ void CPlayer::update(float& dt) {
 			it = m_Shots.erase(it);
 		} else if(Game.m_Rocks->collide(*it)) {
 			it = m_Shots.erase(it);
+			onPlayerShootRock();
 		} else {
 			moveShot(dt, (*it));
 			it++;
@@ -34,7 +36,7 @@ void CPlayer::update(float& dt) {
 }
 
 void CPlayer::shoot() {
-	if(m_Shots.size() >= MAX_ALLOWED_SHOTS || m_LastShoot.getElapsedTime().asSeconds() < 1)
+	if(m_Shots.size() >= MAX_ALLOWED_SHOTS || m_LastShoot.getElapsedTime().asSeconds() < MIN_SHOT_WAIT)
 		return;
 
 	sf::Sprite missile = sf::Sprite(m_Missile);
@@ -70,4 +72,12 @@ void CPlayer::draw() {
 	for(it = m_Shots.begin(); it != m_Shots.end(); it++) {
 		Game.m_Window->draw(*it);
 	}
+}
+
+void CPlayer::onPlayerShootRock() {
+	(*Game.m_ScoreManager) += 1;
+}
+
+void CPlayer::onPlayerDie() {
+	Game.m_ScoreManager->reset();
 }

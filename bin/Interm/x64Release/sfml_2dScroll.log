@@ -1,7 +1,7 @@
 ﻿  CApplication.cpp
   Generating code
-  2 of 504 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  5 of 787 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   sfml_2dScroll.vcxproj -> E:\Programming\VisualStudio\sfml_2dScroll\bin\x64\Release\sfml_2dScroll.exe

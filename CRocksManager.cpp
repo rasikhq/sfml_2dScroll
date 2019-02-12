@@ -14,7 +14,7 @@ CRocksManager::~CRocksManager()
 }
 
 void CRocksManager::generate() {
-	if(m_Rocks.size() >= MAX_ALLOWED_ROCKS || m_LastRock.getElapsedTime().asSeconds() < 1.5)
+	if(m_Rocks.size() >= MAX_ALLOWED_ROCKS || m_LastRock.getElapsedTime().asSeconds() < MIN_GENERATE_WAIT)
 		return;
 	
 	sf::Sprite rock = sf::Sprite(m_Meteor);
@@ -58,6 +58,11 @@ void CRocksManager::draw() {
 	for(it = m_Rocks.begin(); it != m_Rocks.end(); it++) {
 		Game.m_Window->draw(*it);
 	}
+}
+
+void CRocksManager::clear() {
+	m_Rocks.clear();
+	m_LastRock.restart();
 }
 
 bool CRocksManager::collide(sf::Sprite& element, bool destroy) {

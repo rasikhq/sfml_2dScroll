@@ -3,8 +3,15 @@
 #include <iostream>
 #include <unordered_map>
 
+template<typename _FUNCTION, typename... _ARGS>
+void Call(_FUNCTION f, _ARGS... args) {
+	return f(args...);
+}
+
 #include "CPlayer.h"
+#include "CSoundManager.h"
 #include "CRocksManager.h"
+#include "CScoreManager.h"
 
 struct CApplication {
 	CApplication(const sf::VideoMode& WindowResolution, const std::string& WindowTitle) 
@@ -12,8 +19,8 @@ struct CApplication {
 		, m_WindowTitle(WindowTitle)
 	{
 		m_Window = new sf::RenderWindow(WindowResolution, WindowTitle);
-		m_Event = new sf::Event();
-		m_Font = new sf::Font();
+		m_Event  = new sf::Event();
+		m_Font   = new sf::Font();
 
 		if(!m_Font->loadFromFile("data/fonts/arial.ttf"))
 			APP_EXIT_FAILURE("Could not load font!");
@@ -21,9 +28,15 @@ struct CApplication {
 		if(!LoadTextures())
 			APP_EXIT_FAILURE("Could not load textures!");
 
+		// Create managers
+		m_SoundManager = new CSoundManager();
+		m_ScoreManager = new CScoreManager();
+
 		Game_createEnvironment();
 		Game_createPlayer();
 		Game_createRocksManager();
+
+		m_SoundManager->playMusic("bg.ogg");
 	}
 
 	~CApplication() {
@@ -73,7 +86,10 @@ struct CApplication {
 	std::unordered_map<std::string, sf::Texture> m_Textures;
 
 	CPlayer* m_Player;
+	CSoundManager* m_SoundManager;
 	CRocksManager* m_Rocks;
+	CScoreManager* m_ScoreManager;
+
 	sf::Sprite m_EnvironmentBackground;
 
 	bool b_ExitFlag = false;
