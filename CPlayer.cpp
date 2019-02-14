@@ -18,7 +18,7 @@ CPlayer::~CPlayer()
 void CPlayer::update(float& dt) {
 	if(Game.m_Rocks->collide(m_Player)) {
 		onPlayerDie();
-		return Game.Game_destroyPlayer(true);
+		return Game.Game_destroyPlayer();
 	}
 
 	std::vector<sf::Sprite>::iterator it;
@@ -51,8 +51,8 @@ void CPlayer::move(float& dt, signed short int direction) {
 	m_Velocity.y = (direction * m_Units) * dt;
 
 	// Create a "slow down" effect if direction is 0
-	if(direction == 0) {
-		m_Velocity.y = old_y > 0 ? old_y - dt*4 : old_y + dt*4;
+	if(direction == 0 && dt < 1) {
+		m_Velocity.y = old_y > 0 ? old_y - dt*(float)9.8 : old_y + dt*(float)9.8;
 	}
 
 	if(m_Player.getPosition().y + m_Velocity.y >= Game.m_WindowResolution.height - m_Player.getGlobalBounds().height - 5
@@ -76,6 +76,7 @@ void CPlayer::draw() {
 
 void CPlayer::onPlayerShootRock() {
 	(*Game.m_ScoreManager) += 1;
+	Game.m_SoundManager->playSound("hit.ogg");
 }
 
 void CPlayer::onPlayerDie() {

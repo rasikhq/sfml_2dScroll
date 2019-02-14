@@ -20,7 +20,7 @@ public:
 private:
 	std::unordered_map<std::string, sf::SoundBuffer> m_Buffers;
 
-	std::vector<sf::Sound> m_Sounds;
+	std::vector<sf::Sound*> m_Sounds;
 	std::vector<sf::Music*> m_Musics;
 };
 

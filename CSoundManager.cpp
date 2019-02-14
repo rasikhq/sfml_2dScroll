@@ -21,10 +21,10 @@ void CSoundManager::playSound(std::string fileName, bool loop) {
 	if(m_Buffers.find(fileName) == m_Buffers.end())
 		createAudio(fileName);
 
-	sf::Sound sound;
-	sound.setBuffer(m_Buffers[fileName]);
-	sound.setLoop(loop);
-	sound.play();
+	sf::Sound* sound = new sf::Sound();
+	sound->setBuffer(m_Buffers[fileName]);
+	sound->setLoop(loop);
+	sound->play();
 	m_Sounds.push_back(sound);
 }
 
@@ -41,9 +41,9 @@ void CSoundManager::playMusic(std::string fileName, bool loop) {
 }
 
 void CSoundManager::update() {
-	std::vector<sf::Sound>::const_iterator sound_it;
+	std::vector<sf::Sound*>::const_iterator sound_it;
 	for(sound_it = m_Sounds.begin(); sound_it != m_Sounds.end();) {
-		if(sound_it->getStatus() == sf::Sound::Stopped) {
+		if((*sound_it)->getStatus() == sf::Sound::Stopped) {
 			sound_it = m_Sounds.erase(sound_it);
 		} else {
 			sound_it++;

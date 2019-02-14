@@ -20,7 +20,49 @@ bool CApplication::LoadTextures() {
 	return true;
 }
 
+bool CApplication::Run_MainMenu() {
+	if(m_State != GAME_STATE::MAIN_MENU)
+		return true;
+
+	// Clear the window for the next frame
+	m_Window->clear();
+
+	// Get the delta time
+	sf::Time time_dt = m_Clock.restart();
+	float dt = time_dt.asSeconds();
+	Game_drawEnvironment(dt);
+
+	// Draw title screen
+	m_Window->draw(m_GameTitleScreen);
+	m_Window->draw(m_GameCreator);
+
+	// Poll events
+	while(m_Window->pollEvent((*m_Event))) {
+		if(m_Event->type == sf::Event::MouseButtonPressed && m_Event->mouseButton.button == sf::Mouse::Button::Left) {
+			auto button = m_MainMenu.getActiveButton();
+			if(!button) {
+				continue;
+			}
+			if(button->getID() == BUTTON_ID::PLAY) {
+				Game_destroyPlayer(true);
+				m_State = GAME_STATE::RUNNING;
+			} else if(button->getID() == BUTTON_ID::QUIT) {
+				return false;
+			}
+		}
+	}
+
+	m_MainMenu.update();
+	m_MainMenu.draw();
+
+	m_Window->display();
+	return true;
+}
+
 bool CApplication::Run() {
+	if(m_State != GAME_STATE::RUNNING)
+		return true;
+
 	// Get the delta time
 	sf::Time time_dt = m_Clock.restart();
 	float dt = time_dt.asSeconds();
@@ -53,6 +95,9 @@ bool CApplication::Run() {
 	m_SoundManager->update();
 	m_Player->update(dt);
 
+	if(!m_Player)
+		return true;
+
 	// Drawing
 	// Draw - Environment {Environment, Score, Player, Rocks}
 	Game_drawEnvironment(dt);
@@ -62,6 +107,43 @@ bool CApplication::Run() {
 	m_Rocks->draw();
 
 	// Display the window
+	m_Window->display();
+	return true;
+}
+
+bool CApplication::Run_EndMenu() {
+	if(m_State != GAME_STATE::END_MENU)
+		return true;
+
+	// Clear the window for the next frame
+	m_Window->clear();
+
+	m_SoundManager->update();
+
+	// Get the delta time
+	sf::Time time_dt = m_Clock.restart();
+	float dt = time_dt.asSeconds();
+	Game_drawEnvironment(dt);
+
+	// Poll events
+	while(m_Window->pollEvent((*m_Event))) {
+		if(m_Event->type == sf::Event::MouseButtonPressed && m_Event->mouseButton.button == sf::Mouse::Button::Left) {
+			auto button = m_EndMenu.getActiveButton();
+			if(!button) {
+				continue;
+			}
+			if(button->getID() == BUTTON_ID::RETRY) {
+				Game_destroyPlayer(true);
+				m_State = GAME_STATE::RUNNING;
+			} else if(button->getID() == BUTTON_ID::MAINMENU) {
+				m_State = GAME_STATE::MAIN_MENU;
+			}
+		}
+	}
+
+	m_EndMenu.update();
+	m_EndMenu.draw();
+
 	m_Window->display();
 	return true;
 }
@@ -89,12 +171,13 @@ void CApplication::Game_createPlayer() {
 }
 
 void CApplication::Game_destroyPlayer(bool respawn) {
-	delete m_Player;
-	if(respawn) {
-		m_Rocks->clear();
+	m_SoundManager->playSound("death.ogg");
+
+	m_Rocks->clear();
+	if(respawn)
 		Game_createPlayer();
-	}  else
-		return; // TO DO: Go to game over / menu
+	else
+		m_State = GAME_STATE::END_MENU;
 }
 
 void CApplication::Game_movePlayer(float& dt, signed short int direction) {

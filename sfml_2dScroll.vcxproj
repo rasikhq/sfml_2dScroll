@@ -73,22 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)bin\Interm\$(Platform)$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\Interm\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)bin\Interm\$(Platform)$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\Interm\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)bin\Interm\$(Platform)$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\Interm\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)bin\Interm\$(Platform)$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\Interm\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -180,6 +180,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CApplication.cpp" />
+    <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRocksManager.cpp" />
     <ClCompile Include="CScoreManager.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="sfml_2dScroll.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CMenu.h" />
     <ClInclude Include="include\CSoundManager.h" />
     <ClInclude Include="include\CScoreManager.h" />
     <ClInclude Include="include\CRocksManager.h" />
