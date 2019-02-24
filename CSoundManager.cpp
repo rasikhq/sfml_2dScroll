@@ -44,6 +44,7 @@ void CSoundManager::update() {
 	std::vector<sf::Sound*>::const_iterator sound_it;
 	for(sound_it = m_Sounds.begin(); sound_it != m_Sounds.end();) {
 		if((*sound_it)->getStatus() == sf::Sound::Stopped) {
+			delete (*sound_it);
 			sound_it = m_Sounds.erase(sound_it);
 		} else {
 			sound_it++;

@@ -3,6 +3,7 @@
 #define PROJECT_AUTHOR "DizzasTeR"
 
 #include <SFML/Graphics.hpp>
+#include <Windows.h>
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -19,6 +20,9 @@ int main(int argsc, char** args)
 		ss << PROJECT << " - " << args[1] << (argsc > 2 ? " " + std::string(args[2]) : "");
 		Game.m_Window->setTitle(ss.str());
 	}
+
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+
 	srand((unsigned int)time(NULL));
 
 	/* Window settings */
