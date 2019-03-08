@@ -9,6 +9,13 @@ CPlayer::CPlayer(sf::Texture& playerTexture, sf::Texture& missileTexture)
 
 	m_Player.setTexture(playerTexture);
 	m_Missile.setTexture(missileTexture);
+
+	m_Health.setFillColor(sf::Color::Green);
+	m_Health.setPosition(Game.m_Window->getSize().x * 0.5f, Game.m_Window->getSize().y * 0.02f);
+
+	m_HealthBackground.setFillColor(sf::Color::Color(50, 50, 50, 200));
+	m_HealthBackground.setSize({200.0f + 2.0f, 15.0f + 2.0f});
+	m_HealthBackground.setPosition(Game.m_Window->getSize().x * 0.5f - 1, Game.m_Window->getSize().y * 0.02f - 1);
 }
 
 CPlayer::~CPlayer()
@@ -17,8 +24,13 @@ CPlayer::~CPlayer()
 
 void CPlayer::update(float& dt) {
 	if(Game.m_Rocks->collide(m_Player)) {
-		onPlayerDie();
-		return Game.Game_destroyPlayer();
+		m_fHealth -= Game.m_Rocks->ROCK_DAMAGE;
+		if(m_fHealth <= 0) {
+			onPlayerDie();
+			return Game.Game_destroyPlayer();
+		}
+		// Set health color according to the percentage
+		m_Health.setFillColor(sf::Color::Color(255, 255*m_fHealth, 0));
 	}
 
 	std::vector<sf::Sprite>::iterator it;
@@ -67,6 +79,10 @@ void CPlayer::moveShot(float& dt, sf::Sprite& missile) {
 }
 
 void CPlayer::draw() {
+	Game.m_Window->draw(m_HealthBackground);
+	m_Health.setSize({200.0f * m_fHealth, 15.0f});
+	Game.m_Window->draw(m_Health);
+	
 	Game.m_Window->draw(m_Player);
 	std::vector<sf::Sprite>::iterator it;
 	for(it = m_Shots.begin(); it != m_Shots.end(); it++) {

@@ -15,6 +15,7 @@ public:
 	bool collide(sf::Sprite&, bool = true);
 public:
 	static const short unsigned int MAX_ALLOWED_ROCKS = 5;
+	const float ROCK_DAMAGE = 0.25f;
 	const double MIN_GENERATE_WAIT = 1.5f;
 private:
 	sf::Texture m_Meteor;

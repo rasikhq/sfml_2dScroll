@@ -28,7 +28,11 @@ private:
 	sf::Vector2f m_Velocity;
 	sf::Clock m_LastShoot;
 
+	sf::RectangleShape m_Health;
+	sf::RectangleShape m_HealthBackground;
+
 	std::vector<sf::Sprite> m_Shots;
 
 	float m_Units = 150.0f;
+	float m_fHealth = 1.0f;
 };
