@@ -16,7 +16,8 @@ bool CApplication::LoadTextures() {
 		return false;
 	if(!m_Textures["Rock"].loadFromFile("data/textures/meteor.png"))
 		return false;
-
+	if(!m_Textures["Health"].loadFromFile("data/textures/health.png"))
+		return false;
 	return true;
 }
 
@@ -103,8 +104,8 @@ bool CApplication::Run() {
 	Game_drawEnvironment(dt);
 	m_ScoreManager->draw();
 	m_Player->draw();
-	m_Rocks->update(dt);
-	m_Rocks->draw();
+	m_Items->update(dt);
+	m_Items->draw();
 
 	// Display the window
 	m_Window->display();
@@ -173,7 +174,7 @@ void CApplication::Game_createPlayer() {
 void CApplication::Game_destroyPlayer(bool respawn) {
 	m_SoundManager->playSound("death.ogg");
 
-	m_Rocks->clear();
+	m_Items->clear();
 	if(respawn)
 		Game_createPlayer();
 	else
@@ -207,7 +208,9 @@ void CApplication::Game_drawEnvironment(float& dt) {
 }
 
 // Game - Rocks Manager
-void CApplication::Game_createRocksManager() {
-	m_Textures["Rock"].setSmooth(true);
-	m_Rocks = new CRocksManager(m_Textures["Rock"]);
+void CApplication::Game_createItemsManager() {
+	for(std::unordered_map<std::string, sf::Texture>::iterator it = m_Textures.begin(); it != m_Textures.end(); it++) {
+		it->second.setSmooth(true);
+	}
+	m_Items = new CItemsManager();
 }

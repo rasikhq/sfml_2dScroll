@@ -23,21 +23,28 @@ CPlayer::~CPlayer()
 }
 
 void CPlayer::update(float& dt) {
-	if(Game.m_Rocks->collide(m_Player)) {
-		m_fHealth -= Game.m_Rocks->ROCK_DAMAGE;
+	std::string itemCollide = Game.m_Items->collide(m_Player);
+	if(itemCollide == "Rock") {
+		m_fHealth -= Game.m_Items->ROCK_DAMAGE;
 		if(m_fHealth <= 0) {
 			onPlayerDie();
 			return Game.Game_destroyPlayer();
 		}
 		// Set health color according to the percentage
-		m_Health.setFillColor(sf::Color::Color(255, 255*m_fHealth, 0));
+		m_Health.setFillColor(sf::Color::Color(255*(1.0f - m_fHealth), 255*m_fHealth, 0));
+	} else if(itemCollide == "Health") {
+		m_fHealth += Game.m_Items->HEALTH_POINTS;
+		if(m_fHealth > 1.0f)
+			m_fHealth = 1.0f;
+		// Set health color according to the percentage
+		m_Health.setFillColor(sf::Color::Color(255 * (1.0f - m_fHealth), 255 * m_fHealth, 0));
 	}
 
 	std::vector<sf::Sprite>::iterator it;
 	for(it = m_Shots.begin(); it != m_Shots.end();) {
 		if(it->getPosition().x > Game.m_WindowResolution.width) {
 			it = m_Shots.erase(it);
-		} else if(Game.m_Rocks->collide(*it)) {
+		} else if(Game.m_Items->collide(*it) == "Rock") {
 			it = m_Shots.erase(it);
 			onPlayerShootRock();
 		} else {

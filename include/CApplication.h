@@ -6,7 +6,7 @@
 #include "CPlayer.h"
 #include "CMenu.h"
 #include "CSoundManager.h"
-#include "CRocksManager.h"
+#include "CItemsManager.h"
 #include "CScoreManager.h"
 
 enum GAME_STATE {
@@ -14,6 +14,7 @@ enum GAME_STATE {
 	RUNNING,
 	END_MENU
 };
+
 struct CApplication {
 	CApplication(const sf::VideoMode& WindowResolution, const std::string& WindowTitle) 
 		: m_WindowResolution(WindowResolution)
@@ -45,12 +46,12 @@ struct CApplication {
 		// Set up game
 		Game_createEnvironment();
 		Game_createPlayer();
-		Game_createRocksManager();
+		Game_createItemsManager();
 
 		m_SoundManager->createAudio("death.ogg");
 		m_SoundManager->createAudio("hit.ogg");
 
-		m_SoundManager->playMusic("bg.ogg", true);
+		//m_SoundManager->playMusic("bg.ogg", true);
 
 		// Title screen
 		m_GameTitleScreen.setFont(*m_Font);
@@ -117,7 +118,7 @@ struct CApplication {
 	void Game_createEnvironment();
 	void Game_drawEnvironment(float&);
 
-	void Game_createRocksManager();
+	void Game_createItemsManager();
 
 	// Member variables
 
@@ -133,7 +134,7 @@ struct CApplication {
 
 	CPlayer* m_Player;
 	CSoundManager* m_SoundManager;
-	CRocksManager* m_Rocks;
+	CItemsManager* m_Items;
 	CScoreManager* m_ScoreManager;
 
 	CMenu m_MainMenu;
