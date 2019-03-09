@@ -21,7 +21,7 @@ int main(int argsc, char** args)
 		Game.m_Window->setTitle(ss.str());
 	}
 
-	//ShowWindow(GetConsoleWindow(), SW_HIDE);
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 	srand((unsigned int)time(NULL));
 

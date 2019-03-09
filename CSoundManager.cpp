@@ -28,7 +28,7 @@ void CSoundManager::playSound(std::string fileName, bool loop) {
 	m_Sounds.push_back(sound);
 }
 
-void CSoundManager::playMusic(std::string fileName, bool loop) {
+void CSoundManager::playMusic(std::string fileName, bool loop, std::string soundID) {
 	sf::Music* music = new sf::Music();
 	if(!music->openFromFile("data/sounds/" + fileName)) {
 		std::cout << "[CSoundManager] Unable to load music: " << fileName << std::endl;
@@ -37,7 +37,15 @@ void CSoundManager::playMusic(std::string fileName, bool loop) {
 	}
 	music->setLoop(loop);
 	music->play();
-	m_Musics.push_back(music);
+	m_Musics[soundID] = music;
+}
+
+void CSoundManager::stopMusic(std::string soundID) {
+	if(m_Musics.find(soundID) == m_Musics.end())
+		return;
+
+	delete m_Musics[soundID];
+	m_Musics.erase(soundID);
 }
 
 void CSoundManager::update() {
@@ -48,6 +56,16 @@ void CSoundManager::update() {
 			sound_it = m_Sounds.erase(sound_it);
 		} else {
 			sound_it++;
+		}
+	}
+
+	std::unordered_map<std::string, sf::Music*>::const_iterator music_it;
+	for(music_it = m_Musics.begin(); music_it != m_Musics.end();) {
+		if(music_it->second->getStatus() == sf::Music::Stopped) {
+			delete (music_it->second);
+			music_it = m_Musics.erase(music_it);
+		} else {
+			music_it++;
 		}
 	}
 }

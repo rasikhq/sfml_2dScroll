@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <sstream>
 #include <unordered_map>
 
 #include "CPlayer.h"
@@ -44,14 +45,14 @@ struct CApplication {
 		m_EndMenu.m_Buttons.at(1).m_Colors["hover"] = sf::Color::Yellow;
 
 		// Set up game
-		Game_createEnvironment();
+		Game_createEnvironment("level_1");
 		Game_createPlayer();
 		Game_createItemsManager();
 
 		m_SoundManager->createAudio("death.ogg");
 		m_SoundManager->createAudio("hit.ogg");
 
-		//m_SoundManager->playMusic("bg.ogg", true);
+		m_SoundManager->playMusic("bg.ogg", true, "Background Music");
 
 		// Title screen
 		m_GameTitleScreen.setFont(*m_Font);
@@ -115,7 +116,7 @@ struct CApplication {
 	void Game_destroyPlayer(bool = false);
 	void Game_movePlayer(float&, signed short int = 0);
 
-	void Game_createEnvironment();
+	void Game_createEnvironment(std::string, bool = true, bool = true);
 	void Game_drawEnvironment(float&);
 
 	void Game_createItemsManager();

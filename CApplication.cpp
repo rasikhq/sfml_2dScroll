@@ -3,17 +3,16 @@
 // Main functions
 
 bool CApplication::LoadTextures() {
-	m_Textures["Player"] = sf::Texture();
-	m_Textures["Missile"] = sf::Texture();
-	m_Textures["Env_BG"] = sf::Texture();
-	m_Textures["Rock"] = sf::Texture();
-
 	if(!m_Textures["Player"].loadFromFile("data/textures/player.png"))
 		return false;
 	if(!m_Textures["Missile"].loadFromFile("data/textures/missile.png"))
 		return false;
-	if(!m_Textures["Env_BG"].loadFromFile("data/textures/env_bg.png"))
+	// Levels
+	if(!m_Textures["level_1"].loadFromFile("data/textures/levels/level_1.png"))
 		return false;
+	if(!m_Textures["level_2"].loadFromFile("data/textures/levels/level_2.png"))
+		return false;
+	// Items
 	if(!m_Textures["Rock"].loadFromFile("data/textures/meteor.png"))
 		return false;
 	if(!m_Textures["Health"].loadFromFile("data/textures/health.png"))
@@ -186,13 +185,14 @@ void CApplication::Game_movePlayer(float& dt, signed short int direction) {
 }
 
 // Game - Environment
-void CApplication::Game_createEnvironment() {
+void CApplication::Game_createEnvironment(std::string envTexture, bool setSmooth, bool setRepeated) {
 	// Texture settings
-	m_Textures["Env_BG"].setSmooth(true);
-	m_Textures["Env_BG"].setRepeated(true);
+	m_Textures[envTexture].setSmooth(setSmooth);
+	m_Textures[envTexture].setRepeated(setRepeated);
 
-	m_EnvironmentBackground.setTexture(m_Textures["Env_BG"]);
-	m_EnvironmentBackground.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(m_Textures["Env_BG"].getSize().x * 2, m_Textures["Env_BG"].getSize().y)));
+	m_EnvironmentBackground.setTexture(m_Textures[envTexture]);
+	//m_EnvironmentBackground.setScale(m_Window->getView().getSize().x / m_EnvironmentBackground.getLocalBounds().width, m_Window->getView().getSize().y / m_EnvironmentBackground.getLocalBounds().height);
+	m_EnvironmentBackground.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(m_Window->getSize().x*2, m_Window->getSize().y)));
 	m_EnvironmentBackground.setPosition(0, 0);
 }
 
@@ -209,8 +209,7 @@ void CApplication::Game_drawEnvironment(float& dt) {
 
 // Game - Rocks Manager
 void CApplication::Game_createItemsManager() {
-	for(std::unordered_map<std::string, sf::Texture>::iterator it = m_Textures.begin(); it != m_Textures.end(); it++) {
-		it->second.setSmooth(true);
-	}
+	m_Textures["Rock"].setSmooth(true);
+	m_Textures["Health"].setSmooth(true);
 	m_Items = new CItemsManager();
 }

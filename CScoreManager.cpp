@@ -24,6 +24,10 @@ void CScoreManager::update() {
 	m_Score.setString("Score: " + std::to_string(m_Points));
 	m_Best.setString("Best Score: " + std::to_string(m_BestPoints));
 	m_Best.setPosition(m_Score.getGlobalBounds().width + m_Score.getCharacterSize(), 5);
+
+	if(m_Points == 50) {
+		Game.Game_createEnvironment("level_2");
+	}
 }
 
 void CScoreManager::reset() {

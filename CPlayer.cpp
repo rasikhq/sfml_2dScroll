@@ -11,11 +11,11 @@ CPlayer::CPlayer(sf::Texture& playerTexture, sf::Texture& missileTexture)
 	m_Missile.setTexture(missileTexture);
 
 	m_Health.setFillColor(sf::Color::Green);
-	m_Health.setPosition(Game.m_Window->getSize().x * 0.5f, Game.m_Window->getSize().y * 0.02f);
+	m_Health.setPosition(Game.m_Window->getSize().x * 0.725f, Game.m_Window->getSize().y * 0.02f);
 
 	m_HealthBackground.setFillColor(sf::Color::Color(50, 50, 50, 200));
 	m_HealthBackground.setSize({200.0f + 2.0f, 15.0f + 2.0f});
-	m_HealthBackground.setPosition(Game.m_Window->getSize().x * 0.5f - 1, Game.m_Window->getSize().y * 0.02f - 1);
+	m_HealthBackground.setPosition(m_Health.getPosition().x- 1, m_Health.getPosition().y - 1);
 }
 
 CPlayer::~CPlayer()
